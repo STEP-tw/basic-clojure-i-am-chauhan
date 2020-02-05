@@ -77,8 +77,14 @@
   {:level        :easy
    :use          '[loop recur and]
    :dont-use     '[every?]
-   :implemented? false}
-  ([pred coll]))
+   :implemented? true}
+  ([pred coll]
+   (loop [sequence coll result true]
+     (if (or (empty? sequence) (not result))
+       result
+       (recur
+         (rest sequence)
+         (pred (first sequence)))))))
 
 (defn some?'
   "Implement your own version of some that checks if at least one
@@ -88,8 +94,14 @@
   {:level        :easy
    :use          '[loop recur or]
    :dont-use     '[some]
-   :implemented? false}
-  ([pred coll]))
+   :implemented? true}
+  ([pred coll]
+   (loop [sequence coll result false]
+     (if (or (empty? sequence) result)
+       result
+       (recur
+         (rest sequence)
+         (pred (first sequence)))))))
 
 (defn ascending?
   "Verify if every element is greater than or equal to its predecessor"

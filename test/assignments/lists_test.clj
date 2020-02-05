@@ -31,3 +31,21 @@
     (is (= '(\e \r \u \j \o \l \c) (reverse' "clojure"))))
   (testing "with non-seqable"
     (is (nil? (reverse' true)))))
+
+(deftest every?-test
+  (testing "with empty list"
+    (is (true? (every?' odd? []))))
+  (testing "odd? with odd value"
+    (is (true? (every?' odd? [1 3 5]))))
+  (testing "odd? with one even value in list"
+    (is (false? (every?' odd? [1 2 3])))))
+
+(deftest some?-test
+  (testing "with empty list"
+    (is (false? (some?' odd? []))))
+  (testing "odd? with odd value"
+    (is (true? (some?' odd? [1 3 5]))))
+  (testing "odd? with one even value in list"
+    (is (true? (some?' odd? [1 2 3]))))
+  (testing "even? with no even values in list"
+    (is (false? (some?' even? [1 3 5])))))
