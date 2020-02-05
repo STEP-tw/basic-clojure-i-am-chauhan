@@ -17,8 +17,15 @@
   {:level        :easy
    :use          '[loop recur]
    :dont-use     '[filter]
-   :implemented? false}
-  [pred coll])
+   :implemented? true}
+  [pred coll]
+  (loop [sequence coll result '()]
+    (cond
+      (empty? sequence) result
+      (pred (first sequence)) (recur
+                                (rest sequence)
+                                (concat result (vector (first sequence))))
+      :else (recur (rest sequence) result))))
 
 (defn reduce'
   "Implement your own multi-arity version of reduce
