@@ -34,9 +34,15 @@
   {:level        :medium
    :use          '[loop recur]
    :dont-use     '[reduce]
-   :implemented? false}
-  ([f coll])
-  ([f init coll]))
+   :implemented? true}
+  ([f coll] (reduce' f (first coll) (rest coll)))
+  ([f init coll]
+   (loop [sequence coll result init]
+     (if (empty? sequence)
+       result
+       (recur
+         (rest sequence)
+         (f result (first sequence)))))))
 
 (defn count'
   "Implement your own version of count that counts the
@@ -44,8 +50,14 @@
   {:level        :easy
    :use          '[loop recur]
    :dont-use     '[count]
-   :implemented? false}
-  ([coll]))
+   :implemented? true}
+  ([coll]
+   (loop [sequence coll result 0]
+     (if (empty? sequence)
+       result
+       (recur
+         (rest sequence)
+         (inc result))))))
 
 (defn reverse'
   "Implement your own version of reverse that reverses a coll.
@@ -53,8 +65,11 @@
   {:level        :easy
    :use          '[reduce conj seqable? when]
    :dont-use     '[reverse]
-   :implemented? false}
-  ([coll]))
+   :implemented? true}
+  ([coll]
+   (when
+     (seqable? coll)
+     (reduce conj '() coll))))
 
 (defn every?'
   "Implement your own version of every? that checks if every
