@@ -109,7 +109,10 @@
    :use          '[partition every? partial apply <=]
    :dont-use     '[loop recur]
    :implemented? false}
-  [coll])
+  [coll]
+  (->> coll
+       (partition 2 1)
+       (every? (partial apply <=))))
 
 (defn distinct'
   "Implement your own lazy sequence version of distinct which returns
@@ -226,7 +229,9 @@
   {:level        :easy
    :use          '[map constantly let]
    :implemented? false}
-  [coll])
+  [coll]
+  (let [first-e (first coll)]
+    (map (constantly (* first-e first-e)) coll)))
 
 (defn russian-dolls
   "Given a collection and a number, wrap each element in a nested vector

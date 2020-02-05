@@ -49,3 +49,15 @@
     (is (true? (some?' odd? [1 2 3]))))
   (testing "even? with no even values in list"
     (is (false? (some?' even? [1 3 5])))))
+
+(deftest ascending?-test
+  (testing "with correct sequence"
+    (is (true? (ascending? [1 2 3]))))
+  (testing "with wrong sequence"
+    (is (false? (ascending? [1 4 3])))))
+
+(deftest sqr-of-the-first-test
+  (testing "with single item"
+    (is (= [1] (sqr-of-the-first [1]))))
+  (testing "with collection containing 4 items"
+    (is (= [4 4 4 4] (sqr-of-the-first [2 3 4 5])))))
