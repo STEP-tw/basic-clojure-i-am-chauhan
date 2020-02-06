@@ -57,7 +57,6 @@
         (c/zero-aliases 5)
         ;;
         (c/zero-separated-palindrome [1 2])
-        (c/zero-separated-palindrome [:a])
         (c/zero-separated-palindrome [0]))))
 
 ; list fns are to be filled by you

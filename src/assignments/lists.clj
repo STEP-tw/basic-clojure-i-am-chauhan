@@ -279,8 +279,12 @@
   {:level        :easy
    :use          '[interleave split-at if rem concat take-last]
    :dont-use     '[loop recur map-indexed take drop]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (as-> coll x
+        (split-at (quot (count coll) 2) x)
+        (apply interleave x)
+        (concat x (take-last (rem (count coll) 2) coll))))
 
 (defn muted-thirds
   "Given a sequence of numbers, make every third element
@@ -289,16 +293,23 @@
   {:level        :easy
    :use          '[map cycle]
    :dont-use     '[loop recur map-indexed take take-nth]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (map * coll (cycle [1 1 0])))
 
 (defn palindrome?
   "Implement a recursive palindrome check of any given sequence"
   {:level        :easy
    :use          '[empty? loop recur butlast rest]
    :dont-use     '[reverse]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (loop [coll coll result true]
+    (if (or (empty? coll) (not result))
+      result
+      (recur
+        (butlast (rest coll))
+        (= (first coll) (last coll))))))
 
 (defn index-of
   "index-of takes a sequence and an element and finds the index

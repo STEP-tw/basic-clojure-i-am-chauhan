@@ -111,3 +111,19 @@
 (deftest sum-of-adjacent-digits-test
   (testing "non-empty collection"
     (is (= [3 5 7] (sum-of-adjacent-digits [1 2 3 4])))))
+
+(deftest muted-thirds-test
+  (testing "non-empty collection"
+    (is (= [1 2 0 4 5 0 7 8] (muted-thirds [1 2 3 4 5 6 7 8])))))
+
+(deftest split-comb-test
+  (testing "odd length collection"
+    (is (= '(1 3 2 4 5) (split-comb [1 2 3 4 5]))))
+  (testing "even length collection"
+    (is (= '(1 4 2 5 3 6) (split-comb [1 2 3 4 5 6])))))
+
+(deftest palindrome?-test
+  (testing "palindrome collection"
+    (is (= true (palindrome? [1 2 3 2 1]))))
+  (testing "not a palindrome collection"
+    (is (= false (palindrome? [1 2 4 3 1])))))
