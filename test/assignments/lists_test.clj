@@ -61,3 +61,31 @@
     (is (= [1] (sqr-of-the-first [1]))))
   (testing "with collection containing 4 items"
     (is (= [4 4 4 4] (sqr-of-the-first [2 3 4 5])))))
+
+(deftest difference-test
+  (testing "non-empty collection"
+    (is (= [5 6 7 8] (difference [1 2 3 4] [5 6 1 2 7 8])))))
+
+(deftest russian-dolls-test
+  (testing "single nesting gives result as same input"
+    (is (= [1 2 3] (russian-dolls [1 2 3] 1))))
+  (testing "triple nesting"
+    (is (= [[[1]] [[2]] [[3]]] (russian-dolls [1 2 3] 3)))))
+
+(deftest distinct-test
+  (testing "with no duplicates"
+    (is (= [1 2 3] (distinct' [1 2 3]))))
+  (testing "with duplicates"
+    (is (= [1 2 3] (distinct' [1 1 2 3 2])))))
+
+(deftest dedupe-test
+  (testing "with no duplicates"
+    (is (= [1 2 3] (dedupe' [1 2 3]))))
+  (testing "with duplicates but not consecutive"
+    (is (= [1 2 3 1] (dedupe' [1 2 3 1]))))
+  (testing "with consecutive duplicates"
+    (is (= [1 2 3] (dedupe' [1 1 2 3 3])))))
+
+(deftest third-or-fifth-test
+  (testing "non-empty collection"
+    (is (= [1 4 6 7] (third-or-fifth [1 2 3 4 5 6 7 8 9])))))

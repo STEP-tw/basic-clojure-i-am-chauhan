@@ -108,7 +108,7 @@
   {:level        :easy
    :use          '[partition every? partial apply <=]
    :dont-use     '[loop recur]
-   :implemented? false}
+   :implemented? true}
   [coll]
   (->> coll
        (partition 2 1)
@@ -121,8 +121,14 @@
   {:level        :medium
    :use          '[lazy-seq set conj let :optionally letfn]
    :dont-use     '[loop recur distinct]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (lazy-seq
+    (let [coll coll element (first coll)]
+      (if (empty? coll)
+        coll
+        (cons element (distinct'
+                        (remove (partial = element) (rest coll))))))))
 
 (defn dedupe'
   "Implement your own lazy sequence version of dedupe which returns
@@ -131,8 +137,14 @@
   {:level        :medium
    :use          '[lazy-seq conj let :optionally letfn]
    :dont-use     '[loop recur dedupe]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (lazy-seq
+    (let [coll coll element (first coll) r-coll (rest coll)]
+      (cond
+        (empty? coll) coll
+        (= element (first r-coll)) (cons element (dedupe' (rest r-coll)))
+        :else (cons element (dedupe' r-coll))))))
 
 (defn sum-of-adjacent-digits
   "Given a collection, returns a map of the sum of adjacent digits.
@@ -172,7 +184,8 @@
    :use          '[remove set]
    :dont-use     '[loop recur if]
    :implemented? false}
-  [coll1 coll2])
+  [coll1 coll2]
+  (remove (set coll1) coll2))
 
 (defn union
   "Given two collections, returns a new collection with elements from the second
@@ -218,8 +231,13 @@
   elements whose index is either divisible by three or five"
   {:level        :easy
    :use          '[keep-indexed when :optionally map-indexed filter]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (keep-indexed
+    #(when (or (zero? (rem %1 3))
+               (zero? (rem %1 5)))
+       %2)
+    coll))
 
 (defn sqr-of-the-first
   "Given a collection, return a new collection that contains the
@@ -228,7 +246,7 @@
   [4 5 6] => [16 16 16]"
   {:level        :easy
    :use          '[map constantly let]
-   :implemented? false}
+   :implemented? true}
   [coll]
   (let [first-e (first coll)]
     (map (constantly (* first-e first-e)) coll)))
@@ -240,8 +258,12 @@
   {:level        :medium
    :use          '[iterate mapv partial vector drop first ->>]
    :dont-use     '[for loop recur reduce]
-   :implemented? false}
-  [coll nesting-factor])
+   :implemented? true}
+  [coll nesting-factor]
+  (->> coll
+       (iterate (partial mapv vector))
+       (drop (dec nesting-factor))
+       first))
 
 (defn split-comb
   "Given a collection, return a new sequence where the first
