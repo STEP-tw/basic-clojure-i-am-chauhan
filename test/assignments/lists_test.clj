@@ -86,6 +86,11 @@
   (testing "with consecutive duplicates"
     (is (= [1 2 3] (dedupe' [1 1 2 3 3])))))
 
+(deftest transpose-test
+  (testing "non-empty collection"
+    (is (= [[:a :d] [:b :e] [:c :f]] (transpose [[:a :b :c] [:d :e :f]])))
+    (is (= [[:a :b] [:c :d]] (transpose [[:a :c] [:b :d]])))))
+
 (deftest third-or-fifth-test
   (testing "non-empty collection"
     (is (= [1 4 6 7] (third-or-fifth [1 2 3 4 5 6 7 8 9])))))
