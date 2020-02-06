@@ -197,7 +197,8 @@
   {:level        :easy
    :use          '[remove into set ->>]
    :implemented? false}
-  [coll1 coll2])
+  [coll1 coll2]
+  (into coll1 (difference coll1 coll2)))
 
 ;; points-around-origin is a def not a defn
 (def
@@ -217,16 +218,18 @@
   [[1 4] [1 3] [1 5] [2 4] [2 3] [2 5] [3 4]]"
   {:level        :easy
    :use          '[for]
-   :implemented? false}
-  [seq1 seq2])
+   :implemented? true}
+  [seq1 seq2]
+  (take-while (partial apply not=) (for [x seq1 y seq2] [x y])))
 
 (defn double-up
   "Given a collection, return a new collection that contains
   each element repeated twice"
   {:level        :easy
    :use          '[mapcat partial repeat :optionally vector]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (mapcat (partial repeat 2) coll))
 
 (defn third-or-fifth
   "Given a collection return a new collection that contains
