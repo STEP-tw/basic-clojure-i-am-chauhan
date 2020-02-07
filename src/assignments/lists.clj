@@ -328,10 +328,19 @@
     (cond
       (empty? coll) -1
       (= (first coll) n) index
-      :else (recur (rest coll) (inc index)))))
+      :else (recur (rest coll)
+                   (inc index)))))
+
+(defn- three-by-three [grid]
+  (->> grid
+       (partition 3)
+       (mapcat (comp (partial apply map concat)
+                     (partial map (partial partition 3))))))
 
 (defn validate-sudoku-grid
   "Given a 9 by 9 sudoku grid, validate it."
   {:level        :hard
-   :implemented? false}
-  [grid])
+   :implemented? true}
+  [grid]
+  (every? (partial every? #(= #{1 2 3 4 5 6 7 8 9} (set %)))
+          [grid (transpose grid) (three-by-three grid)]))
