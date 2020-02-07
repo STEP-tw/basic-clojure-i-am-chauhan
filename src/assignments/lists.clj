@@ -22,9 +22,8 @@
   (loop [sequence coll result '()]
     (cond
       (empty? sequence) result
-      (pred (first sequence)) (recur
-                                (rest sequence)
-                                (concat result (vector (first sequence))))
+      (pred (first sequence)) (recur (rest sequence)
+                                     (concat result (vector (first sequence))))
       :else (recur (rest sequence) result))))
 
 (defn reduce'
@@ -40,9 +39,8 @@
    (loop [sequence coll result init]
      (if (empty? sequence)
        result
-       (recur
-         (rest sequence)
-         (f result (first sequence)))))))
+       (recur (rest sequence)
+              (f result (first sequence)))))))
 
 (defn count'
   "Implement your own version of count that counts the
@@ -55,9 +53,8 @@
    (loop [sequence coll result 0]
      (if (empty? sequence)
        result
-       (recur
-         (rest sequence)
-         (inc result))))))
+       (recur (rest sequence)
+              (inc result))))))
 
 (defn reverse'
   "Implement your own version of reverse that reverses a coll.
@@ -67,8 +64,7 @@
    :dont-use     '[reverse]
    :implemented? true}
   ([coll]
-   (when
-     (seqable? coll)
+   (when (seqable? coll)
      (reduce conj '() coll))))
 
 (defn every?'
@@ -82,9 +78,8 @@
    (loop [sequence coll result true]
      (if (or (empty? sequence) (not result))
        result
-       (recur
-         (rest sequence)
-         (pred (first sequence)))))))
+       (recur (rest sequence)
+              (pred (first sequence)))))))
 
 (defn some?'
   "Implement your own version of some that checks if at least one
@@ -99,9 +94,8 @@
    (loop [sequence coll result false]
      (if (or (empty? sequence) result)
        result
-       (recur
-         (rest sequence)
-         (pred (first sequence)))))))
+       (recur (rest sequence)
+              (pred (first sequence)))))))
 
 (defn ascending?
   "Verify if every element is greater than or equal to its predecessor"
@@ -127,8 +121,8 @@
     (let [coll coll element (first coll)]
       (if (empty? coll)
         coll
-        (cons element (distinct'
-                        (remove (partial = element) (rest coll))))))))
+        (cons element
+              (distinct' (remove (partial = element) (rest coll))))))))
 
 (defn dedupe'
   "Implement your own lazy sequence version of dedupe which returns
@@ -164,8 +158,14 @@
   {:level        :medium
    :use          '[map next nnext max-key partial apply + if ->>]
    :dont-use     '[loop recur partition]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (if (> 3 (count coll))
+    coll
+    (->> coll
+         nnext
+         (map vector coll (next coll))
+         (apply max-key (partial apply +)))))
 
 ;; transpose is a def. Not a defn.
 (def
@@ -205,11 +205,15 @@
   ^{:level        :easy
     :use          '[for]
     :dont-use     '[hardcoded-values map filter]
-    :implemented? false}
+    :implemented? true}
   points-around-origin
   "Calculate all the points around the origin
   [-1 -1] [0 -1] [1 -1] etc. There should be 8 points
-  Note this is a def, not a defn")
+  Note this is a def, not a defn"
+  (for [x (range -1 2)
+        y (range -1 2)
+        :when (or (not= x 0) (not= y 0))]
+    [x y]))
 
 (defn cross-product
   "Given two sequences, generate every combination in the sequence
@@ -220,7 +224,8 @@
    :use          '[for]
    :implemented? true}
   [seq1 seq2]
-  (take-while (partial apply not=) (for [x seq1 y seq2] [x y])))
+  (take-while (partial apply not=)
+              (for [x seq1 y seq2] [x y])))
 
 (defn double-up
   "Given a collection, return a new collection that contains
@@ -307,9 +312,8 @@
   (loop [coll coll result true]
     (if (or (empty? coll) (not result))
       result
-      (recur
-        (butlast (rest coll))
-        (= (first coll) (last coll))))))
+      (recur (butlast (rest coll))
+             (= (first coll) (last coll))))))
 
 (defn index-of
   "index-of takes a sequence and an element and finds the index
@@ -318,8 +322,13 @@
   {:level        :easy
    :use          '[loop recur rest]
    :dont-use     '[.indexOf memfn]
-   :implemented? false}
-  [coll n])
+   :implemented? true}
+  [coll n]
+  (loop [coll coll index 0]
+    (cond
+      (empty? coll) -1
+      (= (first coll) n) index
+      :else (recur (rest coll) (inc index)))))
 
 (defn validate-sudoku-grid
   "Given a 9 by 9 sudoku grid, validate it."

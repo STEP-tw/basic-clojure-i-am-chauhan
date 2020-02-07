@@ -127,3 +127,29 @@
     (is (= true (palindrome? [1 2 3 2 1]))))
   (testing "not a palindrome collection"
     (is (= false (palindrome? [1 2 4 3 1])))))
+
+(deftest index-of-test
+  (testing "with empty collection"
+    (is (= -1 (index-of [] "something"))))
+  (testing "with element present in the collection"
+    (is (= 4 (index-of [0 1 2 5 3] 3))))
+  (testing "with element not present in the collection"
+    (is (= -1 (index-of [1 2 3] 0)))))
+
+(deftest max-three-digit-sequence-test
+  (testing "with less than three numbers"
+    (is (= [1 2] (max-three-digit-sequence [1 2]))))
+  (testing "with more than three numbers"
+    (is (= [2 -1 2] (max-three-digit-sequence [1 2 -1 2 0])))))
+
+(deftest points-around-origin-test
+  (testing "points around origin"
+    (is (= '([-1 -1]
+             [-1 0]
+             [-1 1]
+             [0 -1]
+             [0 1]
+             [1 -1]
+             [1 0]
+             [1 1])
+           points-around-origin))))
