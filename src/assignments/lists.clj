@@ -149,7 +149,7 @@
     (let [coll coll element (first coll) r-coll (rest coll)]
       (cond
         (empty? coll) coll
-        (= element (first r-coll)) (cons element (dedupe' (rest r-coll)))
+        (= element (first r-coll)) (dedupe' r-coll)
         :else (cons element (dedupe' r-coll))))))
 
 (defn sum-of-adjacent-digits

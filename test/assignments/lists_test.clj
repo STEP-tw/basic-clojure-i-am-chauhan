@@ -92,7 +92,7 @@
   (testing "with duplicates but not consecutive"
     (is (= [1 2 3 1] (dedupe' [1 2 3 1]))))
   (testing "with consecutive duplicates"
-    (is (= [1 2 3] (dedupe' [1 1 2 3 3])))))
+    (is (= [1 2 1] (dedupe' [1 1 1 1 2 2 1 1 1])))))
 
 (deftest transpose-test
   (testing "non-empty collection"
